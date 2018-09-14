@@ -51,7 +51,7 @@ class WelcomeScreen extends React.Component {
   onButtonPress = () => {
     
     Alert.alert(this.state.text);
-    this.props.dispatch(editName(this.state.text))
+    this.props.editName(this.state.text)
     
     this.props.navigation.navigate('page1')
   }
@@ -93,7 +93,10 @@ class WelcomeScreen extends React.Component {
     );
   }
 }
-ConnectedWelcomeScreen = connect()(WelcomeScreen);
+const mapDispatchToProps = {
+  editName
+}
+ConnectedWelcomeScreen = connect(undefined, mapDispatchToProps)(WelcomeScreen);
 
 class Page1Screen extends React.Component {
   render() {
