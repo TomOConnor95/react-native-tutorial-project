@@ -9,37 +9,36 @@ import {
 import { createStackNavigator } from 'react-navigation';
 import codePush from "react-native-code-push";
 
-// import { createStore } from 'redux';
+import { createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
 
-// // Store creation
-// // EDIT_EXPENSE
-// export const editName = (name) => ({
-//   type: 'EDIT_NAME',
-//   name
-// });
+// REDUX
+export const editName = (name) => ({
+  type: 'EDIT_NAME',
+  name
+});
+defaultNameState = {
+  name: ''
+}
+const nameReducer =  (state = defaultNameState, action) => {
+  switch (action.type) {
+    case 'EDIT_NAME':
+    console.log('EDIT NAME called')
+      return {
+        ...state,
+        name: action.name
+      };
+    default:
+      return state;
+    }
+  };
+
+const store = createStore(
+    nameReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
 
 
-// defaultNameState = {
-//   name: ''
-// }
-// const nameReducer =  (state = defaultNameState, action) => {
-//   switch (action.type) {
-//     case 'EDIT_NAME':
-//       return [
-//         ...state,
-//         action.name
-//       ];
-//     default:
-//       return state;
-//     }
-//   };
-
-// const store = createStore(
-//     {
-//       name: nameReducer,
-//     }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-//   );
-
+// Pages
 
 class WelcomeScreen extends React.Component {
   constructor(props) {
@@ -52,7 +51,7 @@ class WelcomeScreen extends React.Component {
   onButtonPress = () => {
     
     Alert.alert(this.state.text);
-    // this.props.dispatch(editName(name))
+    this.props.dispatch(editName(this.state.text))
     
     this.props.navigation.navigate('page1')
   }
@@ -60,7 +59,7 @@ class WelcomeScreen extends React.Component {
     if ((text.length > 0)) {
       if (this.state.buttonDisabled) {
         console.log('should enable button')
-        this.setState(() => ({ buttonDisabled: false }));
+        this.setState({buttonDisabled: false });
       } 
     } else {
       if (!this.state.buttonDisabled) {
@@ -94,27 +93,32 @@ class WelcomeScreen extends React.Component {
     );
   }
 }
+ConnectedWelcomeScreen = connect()(WelcomeScreen);
 
 class Page1Screen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Put name here</Text>
+        <Text>{this.props.name}</Text>
       </View>
     );
   }
 }
+mapStateToProps = (state) => ({
+  name: state.name
+})
+const ConnectedPage1Screen = connect(mapStateToProps)(Page1Screen)
 
 const RootStack = createStackNavigator(
   {
     welcome: {
-      screen: WelcomeScreen,
+      screen: ConnectedWelcomeScreen,
       navigationOptions: {
         title: 'Welcome'
       }
     },
     page1: {
-      screen: Page1Screen,
+      screen: ConnectedPage1Screen,
       navigationOptions: {
         title: 'Page1',
         headerStyle: {
@@ -122,8 +126,7 @@ const RootStack = createStackNavigator(
         },
       }
     }
-  },
-  {
+  },{
     initialRouteName: 'welcome',
     navigationOptions: {
       headerStyle: {
@@ -137,7 +140,11 @@ const RootStack = createStackNavigator(
 
 class App extends React.Component {
   render() {
-    return <RootStack />;
+    return (
+      <Provider store={store}>
+        <RootStack />
+      </Provider>
+    );
   }
 }
 

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "rndebugger-open"
   },
   "dependencies": {
     "appcenter": "^1.8.1",
@@ -13,7 +14,9 @@
     "react": "16.5.0",
     "react-native": "0.57.0",
     "react-native-code-push": "^5.4.2",
+    "react-native-debugger-open": "^0.3.17",
     "react-navigation": "^2.14.0",
+    "react-redux": "^5.0.7",
     "redux": "^4.0.0"
   },
   "devDependencies": {
