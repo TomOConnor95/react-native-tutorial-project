@@ -1,6 +1,5 @@
 import React from 'react';
 import { 
-  Alert, 
   Button,
   Text, 
   TextInput, 
@@ -49,16 +48,12 @@ class WelcomeScreen extends React.Component {
     };
   }
   onButtonPress = () => {
-    
-    Alert.alert(this.state.text);
-    this.props.dispatch(editName(this.state.text))
-    
+    this.props.editName(this.state.text)
     this.props.navigation.navigate('page1')
   }
   onInputChangeText= (text) => {
     if ((text.length > 0)) {
       if (this.state.buttonDisabled) {
-        console.log('should enable button')
         this.setState({buttonDisabled: false });
       } 
     } else {
@@ -93,7 +88,10 @@ class WelcomeScreen extends React.Component {
     );
   }
 }
-ConnectedWelcomeScreen = connect()(WelcomeScreen);
+const mapDispatchToProps = (dispatch) => ({
+  editName: (name) => dispatch(editName(name))
+})
+ConnectedWelcomeScreen = connect(undefined, mapDispatchToProps)(WelcomeScreen);
 
 class Page1Screen extends React.Component {
   render() {
