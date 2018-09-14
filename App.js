@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Alert, 
@@ -10,13 +9,65 @@ import {
 import { createStackNavigator } from 'react-navigation';
 import codePush from "react-native-code-push";
 
+// import { createStore } from 'redux';
+
+// // Store creation
+// // EDIT_EXPENSE
+// export const editName = (name) => ({
+//   type: 'EDIT_NAME',
+//   name
+// });
+
+
+// defaultNameState = {
+//   name: ''
+// }
+// const nameReducer =  (state = defaultNameState, action) => {
+//   switch (action.type) {
+//     case 'EDIT_NAME':
+//       return [
+//         ...state,
+//         action.name
+//       ];
+//     default:
+//       return state;
+//     }
+//   };
+
+// const store = createStore(
+//     {
+//       name: nameReducer,
+//     }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//   );
+
+
 class WelcomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {
+      text: '',
+      buttonDisabled: true
+    };
   }
   onButtonPress = () => {
-    Alert.alert('You tapped the button!');
+    
+    Alert.alert(this.state.text);
+    // this.props.dispatch(editName(name))
+    
+    this.props.navigation.navigate('page1')
+  }
+  onInputChangeText= (text) => {
+    if ((text.length > 0)) {
+      if (this.state.buttonDisabled) {
+        console.log('should enable button')
+        this.setState(() => ({ buttonDisabled: false }));
+      } 
+    } else {
+      if (!this.state.buttonDisabled) {
+        this.setState({buttonDisabled: true });
+      } 
+    }
+    this.setState({text})
   }
   render() {
     return (
@@ -30,13 +81,14 @@ class WelcomeScreen extends React.Component {
         Your Name 
         </Text>
         <TextInput
-          style={{height: 40}}
+          style={{height: 40, fontSize: 20}}
           placeholder="Type name here!"
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={this.onInputChangeText}
         />
         <Button
           onPress={this.onButtonPress}
-          title="Press Me"
+          disabled={this.state.buttonDisabled}
+          title="Get Started"
         />
       </View>
     );
