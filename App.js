@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import codePush from "react-native-code-push";
 
 class WelcomeScreen extends React.Component {
   static navigationOptions = {
@@ -45,8 +46,17 @@ const RootStack = createStackNavigator(
   }
 );
 
-export default class App extends React.Component {
+
+class App extends React.Component {
   render() {
     return <RootStack />;
   }
 }
+
+const codePushOptions = { 
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.IMMEDIATE
+};
+
+
+export default codePush(codePushOptions)(App);
