@@ -49,8 +49,6 @@ class WelcomeScreen extends React.Component {
     };
   }
   onButtonPress = () => {
-    
-    Alert.alert(this.state.text);
     this.props.editName(this.state.text)
     
     this.props.navigation.navigate('page1')
@@ -99,10 +97,24 @@ const mapDispatchToProps = {
 ConnectedWelcomeScreen = connect(undefined, mapDispatchToProps)(WelcomeScreen);
 
 class Page1Screen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputText: ''
+    };
+  }
+  onInputChangeText= (inputText) => {
+    this.setState({inputText})
+  }
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>{this.props.name}</Text>
+        <TextInput
+          style={{height: 40, fontSize: 20}}
+          placeholder="Type URL!"
+          onChangeText={this.onInputChangeText}
+        />
       </View>
     );
   }
