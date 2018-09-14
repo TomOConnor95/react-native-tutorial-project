@@ -1,32 +1,34 @@
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import codePush from "react-native-code-push";
 
 class WelcomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Welcome',
-    headerStyle: {
-      backgroundColor: '#f4511e',
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Your Name</Text>
+        <Text style={{
+                fontSize: 20,
+                fontWeight: 'bold'}} 
+        >
+        Your Name 
+        </Text>
+        <TextInput
+          style={{height: 40}}
+          placeholder="Type name here!"
+          onChangeText={(text) => this.setState({text})}
+        />
       </View>
     );
   }
 }
 
 class Page1Screen extends React.Component {
-  static navigationOptions = {
-    title: 'Page 1',
-    headerStyle: {
-      backgroundColor: '#f0079e',
-    },
-  };
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -38,11 +40,30 @@ class Page1Screen extends React.Component {
 
 const RootStack = createStackNavigator(
   {
-    Welcome: WelcomeScreen,
-    Page1: Page1Screen,
+    welcome: {
+      screen: WelcomeScreen,
+      navigationOptions: {
+        title: 'Welcome'
+      }
+    },
+    page1: {
+      screen: Page1Screen,
+      navigationOptions: {
+        title: 'Page1',
+        headerStyle: {
+          backgroundColor: '#f0079e',
+        },
+      }
+    }
   },
   {
-    initialRouteName: 'Welcome',
+    initialRouteName: 'welcome',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+    }
   }
 );
 
