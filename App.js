@@ -1,6 +1,12 @@
 
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { 
+  Alert, 
+  Button,
+  Text, 
+  TextInput, 
+  View
+   } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import codePush from "react-native-code-push";
 
@@ -12,9 +18,11 @@ class WelcomeScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{
-                fontSize: 20,
-                fontWeight: 'bold'}} 
+        <Text 
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold'
+          }} 
         >
         Your Name 
         </Text>
@@ -22,6 +30,12 @@ class WelcomeScreen extends React.Component {
           style={{height: 40}}
           placeholder="Type name here!"
           onChangeText={(text) => this.setState({text})}
+        />
+        <Button
+          onPress={() => {
+            Alert.alert('You tapped the button!');
+          }}
+          title="Press Me"
         />
       </View>
     );
