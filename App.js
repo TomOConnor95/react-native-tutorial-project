@@ -15,6 +15,9 @@ class WelcomeScreen extends React.Component {
     super(props);
     this.state = {text: ''};
   }
+  onButtonPress = () => {
+    Alert.alert('You tapped the button!');
+  }
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -32,9 +35,7 @@ class WelcomeScreen extends React.Component {
           onChangeText={(text) => this.setState({text})}
         />
         <Button
-          onPress={() => {
-            Alert.alert('You tapped the button!');
-          }}
+          onPress={this.onButtonPress}
           title="Press Me"
         />
       </View>
